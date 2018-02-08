@@ -1,6 +1,6 @@
 const blogHelper = require('../utils/blog_helper')
 
-const blogs = [
+const sampleBlogs = [
   {
     _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
@@ -71,15 +71,22 @@ describe('total likes', () => {
   ]
 
   test('when list has only one blog equals the likes of that', () => {
-    const result = blogHelper.totalLikes(blogs)
+    const result = blogHelper.totalLikes(sampleBlogs)
     expect(result).toBe(36)
   })
 })
 
 describe('favorite blog', () => {
   test('blog with most likes is returned', () => {
-    const mostLikedBlog = blogs[2]
-    const result = blogHelper.favoriteBlog(blogs)
-    expect(result).toEqual(mostLikedBlog)
+    const mostLikedBlog = sampleBlogs[2]
+    const result = blogHelper.favoriteBlog(sampleBlogs)
+    expect(result).toEqual(mostLikearrayOfLikesdBlog)
+  })
+})
+
+describe('most active author', () => {
+  test('author with most blogs is returned', () => {
+    const mostActiveAuthor = 'Robert C. Martin'
+    const result = blogHelper.mostActiveAuthor(sampleBlogs)
   })
 })

@@ -20,6 +20,15 @@ const favoriteBlog = (listOfBlogs) => {
 	return listOfBlogs[indexOfMax]
 }
 
+const mostActiveAuthor = (listOfBlogs) => {
+	const listOfAuthors = listOfBlogs.map(blog => {
+		console.log(blog.author)
+		return blog.author
+	}) 
+	console.log(listOfAuthors)
+	return "Robert C. Martin"
+}
+
 module.exports = {
-	dummy, totalLikes, favoriteBlog
+	dummy, totalLikes, favoriteBlog, mostActiveAuthor
 }
