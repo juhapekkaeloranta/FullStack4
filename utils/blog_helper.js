@@ -3,17 +3,23 @@ const dummy = (blogs) => {
 	return 1
 }
 
-const totalLikes = (listWithOneBlog) => {
-	console.log(listWithOneBlog)
+const totalLikes = (listOfBlogs) => {
+	console.log(listOfBlogs)
 	const reducer = (accumulator, currentValue) => {
 		console.log(accumulator)
 		console.log(currentValue)
 		return accumulator + currentValue;
 	}
 
-	return listWithOneBlog.map(blog => blog.likes).reduce(reducer)
+	return listOfBlogs.map(blog => blog.likes).reduce(reducer)
+}
+
+const favoriteBlog = (listOfBlogs) => {
+	const arrayOfLikes = listOfBlogs.map(blog => blog.likes)
+	const indexOfMax = arrayOfLikes.indexOf(Math.max(...arrayOfLikes))
+	return listOfBlogs[indexOfMax]
 }
 
 module.exports = {
-	dummy, totalLikes
+	dummy, totalLikes, favoriteBlog
 }
