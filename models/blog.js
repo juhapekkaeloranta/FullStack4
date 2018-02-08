@@ -9,6 +9,6 @@ const Blog = mongoose.model('Blog', {
 
 const mongoUrl = 'mongodb://blog-app:789456123@ds229008.mlab.com:29008/dev-blog-db'
 mongoose.connect(mongoUrl)
-//mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise
 
 module.exports = Blog
