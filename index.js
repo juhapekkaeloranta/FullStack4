@@ -1,10 +1,49 @@
 const http = require('http')
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const mongoose = require('mongoose')
 
-const app = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Hello World')
+const Blog = mongoose.model('Blog', {
+  title: String,
+  author: String,
+  url: String,
+  likes: Number
 })
 
-const port = 3001
-app.listen(port)
-console.log(`Server running on port ${port}`)
+module.exports = Blog
+
+app.use(cors())
+app.use(bodyParser.json())
+
+const mongoUrl = 'mongodb://blog-app:789456123@ds229008.mlab.com:29008/dev-blog-db'
+mongoose.connect(mongoUrl)
+mongoose.Promise = global.Promise
+
+app.get('/', (request, response) => {
+    response.json('hello2')
+  })
+
+app.get('/api/blogs', (request, response) => {
+  Blog
+    .find({})
+    .then(blogs => {
+      response.json(blogs)
+    })
+})
+
+app.post('/api/blogs', (request, response) => {
+  const blog = new Blog(request.body)
+
+  blog
+    .save()
+    .then(result => {
+      response.status(201).json(result)
+    })
+})
+
+const PORT = 3003
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
