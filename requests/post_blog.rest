@@ -2,7 +2,7 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "RestAPI blog",
+    "title": "RestAPI blog 2",
     "author": "Richard Rest",
     "url": "www.google.com/search?q=rest",
     "likes": 0

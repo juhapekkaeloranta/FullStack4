@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
+
+/*
 const mongoose = require('mongoose')
 
 const Blog = mongoose.model('Blog', {
@@ -12,14 +14,16 @@ const Blog = mongoose.model('Blog', {
   likes: Number
 })
 
-module.exports = Blog
-
-app.use(cors())
-app.use(bodyParser.json())
-
 const mongoUrl = 'mongodb://blog-app:789456123@ds229008.mlab.com:29008/dev-blog-db'
 mongoose.connect(mongoUrl)
 mongoose.Promise = global.Promise
+
+module.exports = Blog
+*/
+const Blog = require('./models/blog')
+
+app.use(cors())
+app.use(bodyParser.json())
 
 app.get('/', (request, response) => {
     response.json('hello2')
