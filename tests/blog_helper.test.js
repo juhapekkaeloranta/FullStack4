@@ -80,13 +80,14 @@ describe('favorite blog', () => {
   test('blog with most likes is returned', () => {
     const mostLikedBlog = sampleBlogs[2]
     const result = blogHelper.favoriteBlog(sampleBlogs)
-    expect(result).toEqual(mostLikearrayOfLikesdBlog)
+    expect(result).toEqual(mostLikedBlog)
   })
 })
 
 describe('most active author', () => {
   test('author with most blogs is returned', () => {
-    const mostActiveAuthor = 'Robert C. Martin'
+    const mostActiveAuthor = { "author": 'Robert C. Martin' , "blogs": 3}
     const result = blogHelper.mostActiveAuthor(sampleBlogs)
+    expect(result).toEqual(mostActiveAuthor)
   })
 })

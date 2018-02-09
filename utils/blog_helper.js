@@ -21,12 +21,28 @@ const favoriteBlog = (listOfBlogs) => {
 }
 
 const mostActiveAuthor = (listOfBlogs) => {
-	const listOfAuthors = listOfBlogs.map(blog => {
-		console.log(blog.author)
-		return blog.author
-	}) 
-	console.log(listOfAuthors)
-	return "Robert C. Martin"
+	const countMap = new Map()
+	let maxCount = 0;
+	let mostActiveBlogger = ''
+	
+	listOfBlogs.forEach(blog => {
+		let countSoFar = countMap.get(blog.author)
+		if (countSoFar > 0) {
+			console.log('oli jo!')
+			countMap.set(blog.author, countSoFar + 1)
+			if ((countSoFar + 1) > maxCount) {
+				maxCount = countSoFar + 1
+				mostActiveBlogger = blog.author
+				console.log('most active:', mostActiveBlogger)
+			}
+		} else {
+			console.log('ee oo')
+			countMap.set(blog.author, 1)
+		}
+	});
+
+	console.log(countMap);
+	return { "author": mostActiveBlogger, "blogs": maxCount }
 }
 
 module.exports = {
