@@ -10,6 +10,7 @@ blogsRouter.get('/api/blogs', (request, response) => {
   Blog
     .find({})
     .then(blogs => {
+      console.log(blogs)
       response.json(blogs)
     })
 })
