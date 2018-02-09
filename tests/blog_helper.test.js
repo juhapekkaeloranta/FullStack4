@@ -91,3 +91,11 @@ describe('most active author', () => {
     expect(result).toEqual(mostActiveAuthor)
   })
 })
+
+describe('most liked author', () => {
+  test('author with likes on blogs is returned', () => {
+    const mostLikedAuthor = { "author": "Edsger W. Dijkstra" , "likes": 17 }
+    const result = blogHelper.mostLikedAuthor(sampleBlogs)
+    expect(result).toEqual(mostLikedAuthor)
+  })
+})
