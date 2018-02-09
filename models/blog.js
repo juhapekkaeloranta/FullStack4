@@ -10,7 +10,7 @@ const Blog = mongoose.model('Blog', {
 
 console.log(config)
 const mongoUrl = config.mongoUrl
-mongoose.connect(mongoUrl)
-mongoose.Promise = global.Promise
+//mongoose.connect(mongoUrl)
+//mongoose.Promise = global.Promise
 
 module.exports = Blog
