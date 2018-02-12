@@ -18,11 +18,12 @@ blogsRouter.get('/api/blogs', (request, response) => {
 blogsRouter.post('/api/blogs', (request, response) => {
   const blog = new Blog(request.body)
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+  const asyncSave = async () => {
+    const result = await blog.save()
+    return response.status(201).json(result)
+  }
+ 
+  asyncSave()
 })
 
 module.exports = blogsRouter
