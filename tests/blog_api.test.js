@@ -10,5 +10,6 @@ test('blogs are returned as json', async () => {
 })
 
 afterAll(() => {
+  console.log('closing server');
   server.close()
 })
