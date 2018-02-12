@@ -53,6 +53,31 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
+test('new blog may be added', async () => {
+  const newBlog =  {
+    _id: "5a422b891b54a676234d17fa",
+    title: "First class tests",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api
+    .get('/api/blogs')
+
+  const blogTitles = response.body.map(r => r.title)
+
+  expect(response.body.length).toBe(testSetBlogs.length + 1)
+  expect(blogTitles).toContain('First class tests')
+})
+
 afterAll(() => {
   console.log('closing server');
   server.close()
