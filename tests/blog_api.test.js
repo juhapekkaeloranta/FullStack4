@@ -78,6 +78,35 @@ test('new blog may be added', async () => {
   expect(blogTitles).toContain('First class tests')
 })
 
+test('new blog: likes are set to 0 if empty', async () => {
+  const blogWithoutLikes = {
+    _id: "5a422ba71b54a676234d17fb",
+    title: "TDD harms architecture",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutLikes)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api
+    .get('/api/blogs')
+  
+  const newBlog = response.body.find(blog => 
+    blog._id === "5a422ba71b54a676234d17fb"
+  )
+
+  console.log('new:');
+  console.log(newBlog);
+  console.log(newBlog.likes === 0);
+  console.log('--END NEW');
+  expect(newBlog.likes).toEqual(0)
+})
+
 afterAll(() => {
   console.log('closing server');
   server.close()
