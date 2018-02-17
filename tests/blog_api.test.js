@@ -107,6 +107,17 @@ test('new blog: likes are set to 0 if empty', async () => {
   expect(newBlog.likes).toEqual(0)
 })
 
+test('new blog: title and url compulsory', async () => {
+  const badBlogObj = {
+    author: "Robert C. Martin",
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(badBlogObj)
+    .expect(400)
+})
+
 afterAll(() => {
   console.log('closing server');
   server.close()
