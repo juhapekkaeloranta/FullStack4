@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', (request, response) => {
   Blog
@@ -9,32 +10,49 @@ blogsRouter.get('/', (request, response) => {
     })
 })
 
-blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
-  if (!blog.likes) {
-    blog.likes = 0
-  }
+blogsRouter.post('/', async (request, response) => {
+  try {
+    console.log('hello from POST')
+    const body = request.body
 
-  if (!blog.title || !blog.url) {
-    console.log('NOT GOOD BLOG!');
-    return response.status(400).json({ error: 'title and url are compulsory' })
-  }
+    if (!body.title || !body.url) {
+      console.log('NOT GOOD BLOG!');
+      return response.status(400).json({ error: 'title and url are compulsory' })
+    }
 
-  const asyncSave = async () => {
-    const result = await blog.save()
-    return response.status(201).json(result)
+    // set hard coded user id until login is implemented
+    body.userId = body.userId === undefined ? "5a8c92923e882e08d7788714" : body.userId
+
+    const user = await User.findById(body.userId)
+
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes === undefined ? 0 : body.likes,
+      user: user._id
+    })
+
+    const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+
+    await user.save() 
+
+    return response.status(201).json(savedBlog)
+  } catch (exception) {
+    console.log(exception)
+    response.status(500).json({ error: 'something went wrong...' })
   }
-  
-  asyncSave()
 })
 
 blogsRouter.get('/:id', (request, response) => {
-  console.log('get one -route');
+  console.log('get one -route')
+  console.log(request.params.id)
   Blog
     .findById(request.params.id)
     .then(blog => {
       if (blog) {
-        response.json(blog)
+        response.status(200).json(blog)
       } else {
         response.status(404).end()
       }

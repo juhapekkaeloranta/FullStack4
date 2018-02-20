@@ -7,6 +7,10 @@ const usersInDb = async () => {
   return users
 }
 
+const findUser = async (userName) => {
+  const user = (await User.find({ username: userName }))[0]
+  return user
+}
 module.exports = {
-  usersInDb
+  usersInDb, findUser
 }

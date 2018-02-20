@@ -6,8 +6,8 @@ const User = require('../models/user')
 const helper = require('./test_helper')
 const userHelper = require('./user_helper')
 
-/*
-describe.skip('blog tests', () => {
+
+describe('blog tests', () => {
   const testSetBlogs = [
     {
       _id: "5a422a851b54a676234d17f7",
@@ -24,6 +24,14 @@ describe.skip('blog tests', () => {
       url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
       likes: 12,
       __v: 0
+    },
+    {
+      _id: "5a422b891b54a676234d17fa",
+      title: "First class tests",
+      author: "Robert C. Martin",
+      url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+      likes: 10,
+      __v: 0
     }
   ]
 
@@ -32,13 +40,19 @@ describe.skip('blog tests', () => {
     await Blog.remove({})
 
     let blogObj = new Blog(testSetBlogs[0])
-    await blogObj.save()
+    await api
+      .post('/api/blogs/')
+      .send(blogObj)
 
     blogObj = new Blog(testSetBlogs[1])
-    await blogObj.save()
+    await api
+      .post('/api/blogs/')
+      .send(blogObj)
 
     blogObj = new Blog(testSetBlogs[2])
-    await blogObj.save()
+    await api
+      .post('/api/blogs/')
+      .send(blogObj)
 
     console.log('3 blogs seeded to db');
   })
@@ -79,35 +93,19 @@ describe.skip('blog tests', () => {
 
   test('new blog: likes are set to 0 if empty', async () => {
     const blogWithoutLikes = {
-      _id: "5a422ba71b54a676234d17fb",
       title: "TDD harms architecture",
       author: "Robert C. Martin",
-      url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-      __v: 0
+      url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html"
     }
 
-    await api
+    const response = await api
       .post('/api/blogs')
       .send(blogWithoutLikes)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    //const response = await api
-    //  .get('/api/blogs')
+    const newBlog = response.body
 
-    const response = await helper.allBlogs()
-
-    console.log(response);
-
-    const newBlog = response.find(blog =>
-      blog._id == blogWithoutLikes._id
-    )
-
-    console.log('new:');
-    console.log(newBlog._id + '\n' + blogWithoutLikes._id)
-    console.log(newBlog._id == blogWithoutLikes._id)
-    console.log(newBlog.likes === 0);
-    console.log('--END NEW');
     expect(newBlog.likes).toEqual(0)
   })
 
@@ -126,8 +124,10 @@ describe.skip('blog tests', () => {
     console.log('delete test')
     const allBlogsBefore = await helper.allBlogs()
 
+    const firstBlogOnTheList = allBlogsBefore[0]
+
     await api
-      .delete('/api/blogs/5a422a851b54a676234d17f7')
+      .delete('/api/blogs/' + firstBlogOnTheList._id)
       .expect(204)
 
     const allBlogsAfter = await helper.allBlogs()
@@ -145,7 +145,7 @@ describe.skip('blog tests', () => {
 
   test('add like', async () => {
     console.log('add like test')
-    const blogFromDB = await helper.findBlog('5a422aa71b54a676234d17f8')
+    const blogFromDB = (await helper.allBlogs())[0]
 
     const likesBefore = blogFromDB.likes
     blogFromDB.likes = blogFromDB.likes + 1
@@ -154,7 +154,7 @@ describe.skip('blog tests', () => {
       .put('/api/blogs/' + blogFromDB._id)
       .send(blogFromDB)
 
-    const blogFromDBafter = await helper.findBlog('5a422aa71b54a676234d17f8')
+    const blogFromDBafter = await helper.findBlog(blogFromDB._id)
 
     console.log(likesBefore)
     console.log(blogFromDBafter.likes);
@@ -167,9 +167,8 @@ describe.skip('blog tests', () => {
     console.log('end of afterAll');
   })
 })
-*/
-
-describe.only('user tests', async () => {
+/*
+describe('user tests', async () => {
   beforeAll(async () => {
     await User.remove({})
     const user = new User({ username: 'root', password: 'sekret' })
@@ -180,7 +179,7 @@ describe.only('user tests', async () => {
     const usersBeforeOperation = await userHelper.usersInDb()
 
     console.log(usersBeforeOperation)
-    
+
     const newUser = {
       username: 'mluukkai',
       name: 'Matti Luukkainen',
@@ -198,6 +197,41 @@ describe.only('user tests', async () => {
     expect(usersAfterOperation.length).toBe(usersBeforeOperation.length + 1)
     const usernames = usersAfterOperation.map(u => u.username)
     expect(usernames).toContain(newUser.username)
+  })
+
+  test('adult defaults to true', async () => {
+    const newUser = {
+      username: 'alice',
+      name: 'Alice from Wonderland',
+      password: 'aceOfSpades'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(200)
+    
+    const newUserFromDB = await userHelper.findUser('alice')
+
+    expect(newUserFromDB.adult).toBe(true)
+  })
+
+  test('adult may be set to false', async () => {
+    const newUser = {
+      username: 'bob',
+      name: 'Bob the Builder',
+      password: 'tietenkin',
+      adult: false
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(200)
+    
+    const newUserFromDB = await userHelper.findUser('bob')
+
+    expect(newUserFromDB.adult).toBe(false)
   })
 
   test('too short password rejected', async () => {
@@ -244,3 +278,4 @@ describe.only('user tests', async () => {
     console.log('end of afterAll');
   })
 })
+*/
