@@ -179,6 +179,8 @@ describe.only('user tests', async () => {
   test('POST /api/users succeeds with a fresh username', async () => {
     const usersBeforeOperation = await userHelper.usersInDb()
 
+    console.log(usersBeforeOperation)
+    
     const newUser = {
       username: 'mluukkai',
       name: 'Matti Luukkainen',
@@ -193,15 +195,15 @@ describe.only('user tests', async () => {
 
     const usersAfterOperation = await userHelper.usersInDb()
 
-    expect(usersAfterOperation.length).toBe(usersBeforeOperation.length+1)
-    const usernames = usersAfterOperation.map(u=>u.username)
+    expect(usersAfterOperation.length).toBe(usersBeforeOperation.length + 1)
+    const usernames = usersAfterOperation.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
 
   test('too short password rejected', async () => {
     const lazyUser = {
-      username: 'mluukkai',
-      name: 'Matti Luukkainen',
+      username: 'herraFoo',
+      name: 'Foo Herranen',
       password: '42'
     }
 
@@ -212,9 +214,28 @@ describe.only('user tests', async () => {
       .send(lazyUser)
       .expect(403)
 
-      const usersAfterOperation = await userHelper.usersInDb()
+    const usersAfterOperation = await userHelper.usersInDb()
 
-      expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
+    expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
+  })
+
+  test('username must be unique', async () => {
+    const duplicateUser = {
+      username: 'mluukkai',
+      name: 'Masa Lukkarinen',
+      password: 'topsecred'
+    }
+
+    const usersBeforeOperation = await userHelper.usersInDb()
+
+    await api
+      .post('/api/users')
+      .send(duplicateUser)
+      .expect(403)
+
+    const usersAfterOperation = await userHelper.usersInDb()
+
+    expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
   })
 
   afterAll(() => {

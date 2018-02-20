@@ -18,6 +18,12 @@ usersRouter.post('/', async (request, response) => {
       return response.status(403).json({ error: 'password too short' })
     }
 
+    const isUnique = (await User.find({ username: body.username })).length === 0
+
+    if (!isUnique) {
+      return response.status(403).json({ error: 'duplicate username!'})
+    }
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
