@@ -1,4 +1,5 @@
 const dummy = (blogs) => {
+	console.log('hello from dummy()');
 	console.log(blogs)
 	return 1
 }
@@ -42,7 +43,7 @@ const mostActiveAuthor = (listOfBlogs) => {
 }
 
 const mostLikedAuthor = (listOfBlogs) => {
-	console.log('foo')
+	console.log('hello from mostLikedAuthor()')
 	const countMap = new Map()
 	let maxCount = 0;
 	let mostLikedBlogger = ''

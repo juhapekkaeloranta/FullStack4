@@ -10,17 +10,12 @@ blogsRouter.get('/api/blogs', (request, response) => {
   Blog
     .find({})
     .then(blogs => {
-      console.log(blogs)
       response.json(blogs)
     })
 })
 
 blogsRouter.post('/api/blogs', (request, response) => {
-  console.log('POST');
   const blog = new Blog(request.body)
-  console.log('NEW MADE');
-  console.log(blog.title, blog.url);
-
   if (!blog.likes) {
     blog.likes = 0
   }

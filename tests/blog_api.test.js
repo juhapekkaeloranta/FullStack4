@@ -2,6 +2,7 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const helper = require('./test_helper')
 
 const testSetBlogs = [
   {
@@ -118,7 +119,13 @@ test('new blog: title and url compulsory', async () => {
     .expect(400)
 })
 
+test('fooTest' , async () => {
+  const allBlogs = await helper.allBlogs()
+  expect(Array.isArray(allBlogs)).toBe(true)
+})
+
 afterAll(() => {
   console.log('closing server');
   server.close()
+  console.log('end of afterAll');
 })

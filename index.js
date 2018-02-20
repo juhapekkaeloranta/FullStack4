@@ -29,7 +29,9 @@ app.listen(PORT, () => {
 })
 
 server.on('close', () => {
+  console.log('SERVER CLOSING!');
   mongoose.connection.close()
+  console.log('mongoose connection closed!');
 })
 
 module.exports = {
