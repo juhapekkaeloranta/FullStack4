@@ -33,6 +33,44 @@ blogsRouter.post('/api/blogs', (request, response) => {
   asyncSave()
 })
 
+blogsRouter.get('/api/blogs/:id', (request, response) => {
+  console.log('get one -route');
+  Blog
+    .findById(request.params.id)
+    .then(blog => {
+      if (blog) {
+        response.json(blog)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      response.status(400).send({ error: 'get failed' })
+    })
+})
+
+blogsRouter.put('/api/blogs/:id', (request, response) => {
+  console.log('edit one -route')
+
+  const updatedBlog = {
+    _id: request.body._id,
+    title: request.body.title,
+    url: request.body.url,
+    likes: request.body.likes
+  }
+
+  console.log(updatedBlog);
+
+  Blog
+    .findByIdAndUpdate(updatedBlog._id, updatedBlog, {new: true})
+    .then(blog => {
+      response.json(blog)
+    })
+    .catch(error => {
+      response.status(400).send({ error: 'update failed' })
+    })
+})
+
 blogsRouter.delete('/api/blogs/:id', (request, response) => {
   console.log('delete-route')
   console.log(request.params)

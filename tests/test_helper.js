@@ -20,6 +20,12 @@ const allBlogs = async () => {
   return formatted
 }
 
+const findBlog = async (blogId) => {
+  console.log('finding a blog')
+  const blog = await Blog.find({ _id: blogId })
+  return blog.map(formatBlog)[0]
+}
+
 module.exports = {
-  allBlogs
+  allBlogs, findBlog
 }

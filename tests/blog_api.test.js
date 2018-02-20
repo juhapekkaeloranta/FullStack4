@@ -130,7 +130,7 @@ test('blog can be deleted', async () => {
   console.log('delete test')
   const allBlogsBefore = await helper.allBlogs()
 
-  const response = await api
+  await api
     .delete('/api/blogs/5a422a851b54a676234d17f7')
     .expect(204)
 
@@ -145,6 +145,24 @@ test('test helper gets test set' , async () => {
   console.log(allBlogs);
   expect(Array.isArray(allBlogs)).toBe(true)
   expect(allBlogs.length).toEqual(testSetBlogs.length)
+})
+
+test('add like', async () => {
+  console.log('add like test')
+  const blogFromDB = await helper.findBlog('5a422aa71b54a676234d17f8')
+  
+  const likesBefore = blogFromDB.likes
+  blogFromDB.likes = blogFromDB.likes + 1
+
+  const result = await api
+    .put('/api/blogs/' + blogFromDB._id)
+    .send(blogFromDB)
+
+  const blogFromDBafter = await helper.findBlog('5a422aa71b54a676234d17f8')
+
+  console.log(likesBefore)
+  console.log(blogFromDBafter.likes);
+  expect(blogFromDBafter.likes).toEqual(likesBefore + 1)
 })
 
 afterAll(() => {
