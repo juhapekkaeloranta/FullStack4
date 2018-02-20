@@ -14,6 +14,10 @@ usersRouter.post('/', async (request, response) => {
   try {
     const body = request.body
 
+    if (body.password.length < 3) {
+      return response.status(403).json({ error: 'password too short' })
+    }
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -25,10 +29,10 @@ usersRouter.post('/', async (request, response) => {
 
     const savedUser = await user.save()
 
-    response.json(savedUser)
+    return response.json(savedUser)
   } catch (exception) {
     console.log(exception)
-    response.status(500).json({ error: 'something went wrong...' })
+    return response.status(500).json({ error: 'something went wrong...' })
   }
 })
 

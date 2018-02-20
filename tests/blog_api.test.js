@@ -192,10 +192,29 @@ describe.only('user tests', async () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAfterOperation = await userHelper.usersInDb()
-    
+
     expect(usersAfterOperation.length).toBe(usersBeforeOperation.length+1)
     const usernames = usersAfterOperation.map(u=>u.username)
     expect(usernames).toContain(newUser.username)
+  })
+
+  test('too short password rejected', async () => {
+    const lazyUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: '42'
+    }
+
+    const usersBeforeOperation = await userHelper.usersInDb()
+
+    await api
+      .post('/api/users')
+      .send(lazyUser)
+      .expect(403)
+
+      const usersAfterOperation = await userHelper.usersInDb()
+
+      expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
   })
 
   afterAll(() => {
