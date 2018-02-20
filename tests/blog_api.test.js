@@ -126,6 +126,19 @@ test('new blog: title and url compulsory', async () => {
     .expect(400)
 })
 
+test('blog can be deleted', async () => {
+  console.log('delete test')
+  const allBlogsBefore = await helper.allBlogs()
+
+  const response = await api
+    .delete('/api/blogs/5a422a851b54a676234d17f7')
+    .expect(204)
+
+  const allBlogsAfter = await helper.allBlogs()
+
+  expect(allBlogsAfter.length).toEqual(allBlogsBefore.length - 1)
+})
+
 test('test helper gets test set' , async () => {
   console.log('fooTest');
   const allBlogs = await helper.allBlogs()

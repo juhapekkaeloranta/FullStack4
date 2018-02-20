@@ -33,4 +33,18 @@ blogsRouter.post('/api/blogs', (request, response) => {
   asyncSave()
 })
 
+blogsRouter.delete('/api/blogs/:id', (request, response) => {
+  console.log('delete-route')
+  console.log(request.params)
+  Blog
+    .deleteOne({ _id: request.params.id })
+    .then(() => {
+      console.log('success!')
+      response.status(204).end()
+    })
+    .catch(error => {
+      response.status(400).send({ error: 'delete failed' })
+    })
+})
+
 module.exports = blogsRouter
