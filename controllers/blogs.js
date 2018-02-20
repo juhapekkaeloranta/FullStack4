@@ -1,12 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
-
 blogsRouter.get('/', (request, response) => {
-    response.json('hello2')
-  })
-
-blogsRouter.get('/api/blogs', (request, response) => {
   Blog
     .find({})
     .then(blogs => {
@@ -14,7 +9,7 @@ blogsRouter.get('/api/blogs', (request, response) => {
     })
 })
 
-blogsRouter.post('/api/blogs', (request, response) => {
+blogsRouter.post('/', (request, response) => {
   const blog = new Blog(request.body)
   if (!blog.likes) {
     blog.likes = 0
@@ -33,7 +28,7 @@ blogsRouter.post('/api/blogs', (request, response) => {
   asyncSave()
 })
 
-blogsRouter.get('/api/blogs/:id', (request, response) => {
+blogsRouter.get('/:id', (request, response) => {
   console.log('get one -route');
   Blog
     .findById(request.params.id)
@@ -49,7 +44,7 @@ blogsRouter.get('/api/blogs/:id', (request, response) => {
     })
 })
 
-blogsRouter.put('/api/blogs/:id', (request, response) => {
+blogsRouter.put('/:id', (request, response) => {
   console.log('edit one -route')
 
   const updatedBlog = {
@@ -71,7 +66,7 @@ blogsRouter.put('/api/blogs/:id', (request, response) => {
     })
 })
 
-blogsRouter.delete('/api/blogs/:id', (request, response) => {
+blogsRouter.delete('/:id', (request, response) => {
   console.log('delete-route')
   console.log(request.params)
   Blog

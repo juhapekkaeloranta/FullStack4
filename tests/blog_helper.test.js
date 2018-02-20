@@ -51,7 +51,7 @@ const sampleBlogs = [
   }
 ]
 
-describe.skip('dummy', () => {
+describe('dummy', () => {
   test('dummy is called', () => {
     const blogs = []
 
@@ -60,7 +60,7 @@ describe.skip('dummy', () => {
   })
 })
 
-describe.skip('total likes', () => {
+describe('total likes', () => {
   const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
@@ -78,7 +78,7 @@ describe.skip('total likes', () => {
   })
 })
 
-describe.skip('favorite blog', () => {
+describe('favorite blog', () => {
   test('blog with most likes is returned', () => {
     const mostLikedBlog = sampleBlogs[2]
     const result = blogHelper.favoriteBlog(sampleBlogs)
@@ -86,7 +86,7 @@ describe.skip('favorite blog', () => {
   })
 })
 
-describe.skip('most active author', () => {
+describe('most active author', () => {
   test('author with most blogs is returned', () => {
     const mostActiveAuthor = { "author": 'Robert C. Martin' , "blogs": 3}
     const result = blogHelper.mostActiveAuthor(sampleBlogs)
@@ -94,7 +94,7 @@ describe.skip('most active author', () => {
   })
 })
 
-describe.skip('most liked author', () => {
+describe('most liked author', () => {
   test('author with likes on blogs is returned', () => {
     const mostLikedAuthor = { "author": "Edsger W. Dijkstra" , "likes": 17 }
     const result = blogHelper.mostLikedAuthor(sampleBlogs)
