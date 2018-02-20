@@ -64,6 +64,8 @@ test('new blog may be added', async () => {
     __v: 0
   }
 
+  const allBlogsBefore = await helper.allBlogs()
+
   await api
     .post('/api/blogs')
     .send(newBlog)
@@ -73,10 +75,10 @@ test('new blog may be added', async () => {
   const response = await api
     .get('/api/blogs')
 
-  const blogTitles = response.body.map(r => r.title)
+  const allBlogsAfter = await helper.allBlogs()
 
-  expect(response.body.length).toBe(testSetBlogs.length + 1)
-  expect(blogTitles).toContain('First class tests')
+  expect(allBlogsAfter.length).toEqual(allBlogsBefore.length + 1)
+  //expect(allBlogsAfter).toContainEqual(newBlog)
 })
 
 test('new blog: likes are set to 0 if empty', async () => {
@@ -94,15 +96,20 @@ test('new blog: likes are set to 0 if empty', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  const response = await api
-    .get('/api/blogs')
+  //const response = await api
+  //  .get('/api/blogs')
   
-  const newBlog = response.body.find(blog => 
-    blog._id === "5a422ba71b54a676234d17fb"
+  const response = await helper.allBlogs()
+
+  console.log(response);
+
+  const newBlog = response.find(blog => 
+    blog._id == blogWithoutLikes._id
   )
 
   console.log('new:');
-  console.log(newBlog);
+  console.log(newBlog._id + '\n' + blogWithoutLikes._id )
+  console.log(newBlog._id == blogWithoutLikes._id)
   console.log(newBlog.likes === 0);
   console.log('--END NEW');
   expect(newBlog.likes).toEqual(0)
@@ -119,9 +126,12 @@ test('new blog: title and url compulsory', async () => {
     .expect(400)
 })
 
-test('fooTest' , async () => {
+test('test helper gets test set' , async () => {
+  console.log('fooTest');
   const allBlogs = await helper.allBlogs()
+  console.log(allBlogs);
   expect(Array.isArray(allBlogs)).toBe(true)
+  expect(allBlogs.length).toEqual(testSetBlogs.length)
 })
 
 afterAll(() => {
