@@ -177,7 +177,7 @@ describe.only('user tests', async () => {
   })
 
   test('POST /api/users succeeds with a fresh username', async () => {
-    const usersBeforeOperation = await usersInDb()
+    const usersBeforeOperation = await userHelper.usersInDb()
 
     const newUser = {
       username: 'mluukkai',
@@ -191,7 +191,8 @@ describe.only('user tests', async () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
-    const usersAfterOperation = await usersInDb()
+    const usersAfterOperation = await userHelper.usersInDb()
+    
     expect(usersAfterOperation.length).toBe(usersBeforeOperation.length+1)
     const usernames = usersAfterOperation.map(u=>u.username)
     expect(usernames).toContain(newUser.username)
