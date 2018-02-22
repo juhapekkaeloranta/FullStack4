@@ -6,7 +6,7 @@ const User = require('../models/user')
 const helper = require('./test_helper')
 const userHelper = require('./user_helper')
 
-
+/*
 describe('blog tests', () => {
   const testSetBlogs = [
     {
@@ -167,7 +167,7 @@ describe('blog tests', () => {
     console.log('end of afterAll');
   })
 })
-/*
+
 describe('user tests', async () => {
   beforeAll(async () => {
     await User.remove({})
@@ -279,3 +279,56 @@ describe('user tests', async () => {
   })
 })
 */
+
+describe('login tests', () => {
+  test('with correct credentials', async () => {
+    const realUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'salainen'
+    }
+
+    await api
+      .post('/api/login')
+      .send(realUser)
+      .expect(200)
+  })
+
+  test('with incorrect credentials', async () => {
+    const fakeUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'hunter2'
+    }
+
+    await api
+      .post('/api/login')
+      .send(fakeUser)
+      .expect(401)
+  })
+
+  test('respose must be same with wrong username and with wrong password', async () => {
+    const userWithWrongPasswd = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'hunter2'
+    }
+
+    const nonExistingUser = {
+      username: 'joulupukki',
+      name: 'Matti Luukkainen',
+      password: 'hunter2'
+    }
+
+    passwdError = await api
+      .post('/api/login')
+      .send(userWithWrongPasswd)
+    
+    usernameError = await api
+      .post('/api/login')
+      .send(nonExistingUser)
+
+    expect(passwdError.error.text).toEqual(usernameError.error.text)
+
+  })
+})
