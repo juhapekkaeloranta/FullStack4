@@ -288,10 +288,12 @@ describe('login tests', () => {
       password: 'salainen'
     }
 
-    await api
+    const responseWithToken = await api
       .post('/api/login')
       .send(realUser)
       .expect(200)
+
+    expect(responseWithToken.body.token).not.toBe(undefined)
   })
 
   test('with incorrect credentials', async () => {
@@ -329,6 +331,5 @@ describe('login tests', () => {
       .send(nonExistingUser)
 
     expect(passwdError.error.text).toEqual(usernameError.error.text)
-
   })
 })
