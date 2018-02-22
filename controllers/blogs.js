@@ -13,6 +13,7 @@ blogsRouter.get('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   try {
     console.log('hello from POST')
+    console.log('TOKEN: ', request.token)
     const body = request.body
 
     if (!body.title || !body.url) {

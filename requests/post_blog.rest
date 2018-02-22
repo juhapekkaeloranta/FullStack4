@@ -1,5 +1,6 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YThjOTI5MjNlODgyZTA4ZDc3ODg3MTQiLCJpYXQiOjE1MTkyOTY5NjF9.Q3S5xUIA90oTeoE_-HxpyuTQV2A-sbi9jMgrzDTOpqw
 
 {
     "title": "RestAPI blog 2",
