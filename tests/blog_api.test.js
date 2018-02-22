@@ -6,7 +6,6 @@ const User = require('../models/user')
 const helper = require('./test_helper')
 const userHelper = require('./user_helper')
 
-/*
 describe('blog tests', () => {
   const testSetBlogs = [
     {
@@ -168,6 +167,7 @@ describe('blog tests', () => {
   })
 })
 
+/*
 describe('user tests', async () => {
   beforeAll(async () => {
     await User.remove({})
@@ -280,6 +280,7 @@ describe('user tests', async () => {
 })
 */
 
+/*
 describe('login tests', () => {
   test('with correct credentials', async () => {
     const realUser = {
@@ -333,3 +334,4 @@ describe('login tests', () => {
     expect(passwdError.error.text).toEqual(usernameError.error.text)
   })
 })
+*/

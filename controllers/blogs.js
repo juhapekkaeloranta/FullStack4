@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -85,18 +86,29 @@ blogsRouter.put('/:id', (request, response) => {
     })
 })
 
-blogsRouter.delete('/:id', (request, response) => {
+blogsRouter.delete('/:id', async (request, response) => {
   console.log('delete-route')
-  console.log(request.params)
+  const blogId = request.params.id
+  
+  //const blogToDelete = await Blog.findOne({ author: blogId })  
+  const blogCreatorId = (await Blog.findOne({ author: "Richard Rest" })).user.toString()
+  const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).id
+
+  console.log('owner: ', blogCreatorId)
+  console.log('signed:', userIdFromToken)
+  if (userIdFromToken !== blogCreatorId) {
+    return response.status(401).send({ error: 'Unauthorized to delete this item!'})
+  }
+
   Blog
-    .deleteOne({ _id: request.params.id })
+    .deleteOne({ _id: blogId })
     .then(() => {
       console.log('success!')
       response.status(204).end()
     })
     .catch(error => {
       response.status(400).send({ error: 'delete failed' })
-    })
+    })  
 })
 
 module.exports = blogsRouter

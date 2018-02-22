@@ -11,7 +11,7 @@ const logger = (request, response, next) => {
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
-  console.log('Auth:  ', authorization)
+  console.log('Token found:', authorization !== undefined)
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     const tokenStr = authorization.substring(7)
     request['token'] = tokenStr
