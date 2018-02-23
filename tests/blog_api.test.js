@@ -3,8 +3,8 @@ const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const helper = require('./test_helper')
-const userHelper = require('./user_helper')
+const helper = require('../utils/test_helper')
+const userHelper = require('../utils/user_helper')
 
 describe('blog tests', () => {
   const testSetBlogs = [
@@ -37,6 +37,17 @@ describe('blog tests', () => {
   beforeAll(async () => {
     console.log('beforeAll:');
     await Blog.remove({})
+
+    const userCredentials = {
+      "username": "mluukkai",
+      "password": "salainen"
+    }
+
+    const loginResponse = await api
+      .post('/api/login')
+      .send(userCredentials)
+
+    console.log('logged in with token: ' + loginResponse.body.token)
 
     let blogObj = new Blog(testSetBlogs[0])
     await api
@@ -135,15 +146,12 @@ describe('blog tests', () => {
   })
 
   test('test helper gets test set', async () => {
-    console.log('fooTest');
     const allBlogs = await helper.allBlogs()
-    console.log(allBlogs);
     expect(Array.isArray(allBlogs)).toBe(true)
     //expect(allBlogs.length).toEqual(testSetBlogs.length)
   })
 
   test('add like', async () => {
-    console.log('add like test')
     const blogFromDB = (await helper.allBlogs())[0]
 
     const likesBefore = blogFromDB.likes
@@ -155,8 +163,6 @@ describe('blog tests', () => {
 
     const blogFromDBafter = await helper.findBlog(blogFromDB._id)
 
-    console.log(likesBefore)
-    console.log(blogFromDBafter.likes);
     expect(blogFromDBafter.likes).toEqual(likesBefore + 1)
   })
 

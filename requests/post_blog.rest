@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YThjOTI5MjNlODgyZTA4ZDc3ODg3MTQiLCJpYXQiOjE1MTkyOTY5NjF9.Q3S5xUIA90oTeoE_-HxpyuTQV2A-sbi9jMgrzDTOpqw
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8
 
 {
-    "title": "RestAPI blog 2",
+    "title": "RestAPI blog 3",
     "author": "Richard Rest",
     "url": "www.google.com/search?q=rest",
     "likes": 0

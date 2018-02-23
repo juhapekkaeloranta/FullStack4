@@ -14,7 +14,12 @@ blogsRouter.get('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   try {
     console.log('hello from POST')
-    console.log('TOKEN: ', request.token)
+    
+    if(!request.token) {
+      console.log('POST blog: no token')
+      return response.status(401).json({ error: 'not logged in' })
+    }
+
     const body = request.body
 
     if (!body.title || !body.url) {
@@ -22,23 +27,21 @@ blogsRouter.post('/', async (request, response) => {
       return response.status(400).json({ error: 'title and url are compulsory' })
     }
 
-    // set hard coded user id until login is implemented
-    body.userId = body.userId === undefined ? "5a8c92923e882e08d7788714" : body.userId
-
-    const user = await User.findById(body.userId)
+    const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).id
+    const userFromDB = await User.findById(userIdFromToken)
 
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
       likes: body.likes === undefined ? 0 : body.likes,
-      user: user._id
+      user: userFromDB._id
     })
 
     const savedBlog = await blog.save()
-    user.blogs = user.blogs.concat(savedBlog._id)
+    userFromDB.blogs = userFromDB.blogs.concat(savedBlog._id)
 
-    await user.save() 
+    await userFromDB.save() 
 
     return response.status(201).json(savedBlog)
   } catch (exception) {
@@ -91,7 +94,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   const blogId = request.params.id
   
   //const blogToDelete = await Blog.findOne({ author: blogId })  
-  const blogCreatorId = (await Blog.findOne({ author: "Richard Rest" })).user.toString()
+  const blogCreatorId = (await Blog.findOne({})).user.toString()
   const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).id
 
   console.log('owner: ', blogCreatorId)

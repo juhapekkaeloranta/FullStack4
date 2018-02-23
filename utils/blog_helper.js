@@ -1,14 +1,9 @@
 const dummy = (blogs) => {
-	console.log('hello from dummy()');
-	console.log(blogs)
 	return 1
 }
 
 const totalLikes = (listOfBlogs) => {
-	console.log(listOfBlogs)
 	const reducer = (accumulator, currentValue) => {
-		console.log(accumulator)
-		console.log(currentValue)
 		return accumulator + currentValue;
 	}
 
@@ -43,7 +38,6 @@ const mostActiveAuthor = (listOfBlogs) => {
 }
 
 const mostLikedAuthor = (listOfBlogs) => {
-	console.log('hello from mostLikedAuthor()')
 	const countMap = new Map()
 	let maxCount = 0;
 	let mostLikedBlogger = ''
