@@ -23,9 +23,11 @@ blogsRouter.post('/', async (request, response) => {
     }
 
     // set hard coded user id until login is implemented
-    body.userId = body.userId === undefined ? "5a8c92923e882e08d7788714" : body.userId
+    //body.userId = body.userId === undefined ? "5a8c92923e882e08d7788714" : body.userId
+    const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).id
+    const user = await User.findById(userIdFromToken)
 
-    const user = await User.findById(body.userId)
+    console.log('user:', user)
 
     const blog = new Blog({
       title: body.title,
@@ -48,7 +50,7 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', (request, response) => {
-  console.log('get one -route')
+  console.log('get const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).idone -route')
   console.log(request.params.id)
   Blog
     .findById(request.params.id)

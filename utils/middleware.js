@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 const logger = (request, response, next) => {
   if (process.env.NODE_ENV === 'test') {
     return next()
@@ -10,6 +12,7 @@ const logger = (request, response, next) => {
 }
 
 const tokenExtractor = (request, response, next) => {
+  console.log('tokenExtractor:')
   const authorization = request.get('authorization')
   console.log('Token found:', authorization !== undefined)
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
