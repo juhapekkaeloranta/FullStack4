@@ -27,6 +27,7 @@ blogsRouter.post('/', async (request, response) => {
       return response.status(400).json({ error: 'title and url are compulsory' })
     }
 
+
     const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).id
     const userFromDB = await User.findById(userIdFromToken)
 
@@ -51,7 +52,7 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', (request, response) => {
-  console.log('get one -route')
+  console.log('get const userIdFromToken = (jwt.verify(request.token, process.env.SECRET)).idone -route')
   console.log(request.params.id)
   Blog
     .findById(request.params.id)

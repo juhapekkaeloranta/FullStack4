@@ -20,6 +20,9 @@ const tokenExtractor = (request, response, next) => {
     
     return next()
   }*/
+
+  console.log('tokenExtractor:')
+
   const authorization = request.get('authorization')
   console.log('Incoming request, token found:', authorization !== undefined)
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
