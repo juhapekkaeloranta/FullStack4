@@ -68,6 +68,7 @@ describe('blog tests', () => {
   })
 
   test('blogs are returned as json', async () => {
+    console.log('TEST: blogs are returned as json')
     await api
       .get('/api/blogs')
       .expect(200)
@@ -75,6 +76,7 @@ describe('blog tests', () => {
   })
 
   test('new blog may be added', async () => {
+    console.log('TEST: new blog may be added')
     const newBlog = {
       _id: "5a422b891b54a676234d17fa",
       title: "First class tests",
@@ -89,6 +91,7 @@ describe('blog tests', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8')
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -102,6 +105,7 @@ describe('blog tests', () => {
   })
 
   test('new blog: likes are set to 0 if empty', async () => {
+    console.log('TEST: new blog: likes are set to 0 if empty')
     const blogWithoutLikes = {
       title: "TDD harms architecture",
       author: "Robert C. Martin",

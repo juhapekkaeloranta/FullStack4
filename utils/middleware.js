@@ -12,14 +12,14 @@ const logger = (request, response, next) => {
 }
 
 const tokenExtractor = (request, response, next) => {
-  if (process.env.NODE_ENV === 'test') {
+  /*if (process.env.NODE_ENV === 'test') {
     console.log('using test env token')
     request['token'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8'
     const user = jwt.verify(request.token, process.env.SECRET)
     console.log(user)
     
     return next()
-  }
+  }*/
   const authorization = request.get('authorization')
   console.log('Incoming request, token found:', authorization !== undefined)
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
