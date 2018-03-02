@@ -115,6 +115,7 @@ describe('blog tests', () => {
     const response = await api
       .post('/api/blogs')
       .send(blogWithoutLikes)
+      .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8')      
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -131,6 +132,7 @@ describe('blog tests', () => {
     const response = await api
       .post('/api/blogs')
       .send(badBlogObj)
+      .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8')      
       .expect(400)
   })
 
@@ -142,6 +144,7 @@ describe('blog tests', () => {
 
     await api
       .delete('/api/blogs/' + firstBlogOnTheList._id)
+      .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1YTkwMjFjNzljMTVjMzMwZGJmNTA4NGUiLCJpYXQiOjE1MTk0MDQ0ODF9.SMjGNQfSWBYCnkxjsTrOq2XsSo5hUlMyb8tly8zWPt8')
       .expect(204)
 
     const allBlogsAfter = await helper.allBlogs()
