@@ -70,7 +70,13 @@ blogsRouter.get('/:id', (request, response) => {
 
 blogsRouter.put('/:id', (request, response) => {
   console.log('edit one -route')
+  console.log(request.params)
+  console.log(request.body._id)
 
+  if (request.params.id !== request.body._id) {
+    return response.status(400).send({ error: 'Update failed! Id mismatch.' })
+  }
+  
   const updatedBlog = {
     _id: request.body._id,
     title: request.body.title,
